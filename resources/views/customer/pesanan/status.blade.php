@@ -28,57 +28,47 @@
 
     <div class="px-5 mt-4">
         <div class="bg-white rounded-2xl border border-black/5 p-5">
-            @if (config('midtrans.server_key'))
-                {{-- Opsi 1: Midtrans Sandbox -- pelanggan bayar online langsung dari HP --}}
-                <p class="font-semibold text-char mb-1">Payment option (QRIS)</p>
-                <p class="text-xs text-char/40 mb-3">(optional)</p>
-                <div class="grid grid-cols-4 gap-2 mb-5">
-                    <div class="aspect-square rounded-xl border-2 border-chili-500 bg-chili-50 flex items-center justify-center text-[10px] font-bold text-chili-700">QRIS</div>
-                    <div class="aspect-square rounded-xl border border-black/10 flex items-center justify-center text-char/50">
-                        <svg viewBox="0 0 24 24" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM19 14h2M14 19h2M19 19h2"/></svg>
-                    </div>
-                    <div class="aspect-square rounded-xl border border-black/10 flex items-center justify-center text-char/50">
-                        <svg viewBox="0 0 24 24" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2.5" y="6" width="19" height="12" rx="2.5"/><path d="M2.5 10h19"/></svg>
-                    </div>
-                    <div class="aspect-square rounded-xl border border-black/10 flex items-center justify-center text-char/50">
-                        <svg viewBox="0 0 24 24" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M9 12h6"/></svg>
-                    </div>
-                </div>
+            @if ($pesanan->metode_bayar === 'e_wallet')
+                {{-- E-Wallet via Midtrans -- pelanggan bayar online langsung dari HP.
+                     Pemilihan metode bayar spesifik (QRIS/GoPay/dsb) dilakukan di dalam popup Midtrans-nya sendiri. --}}
                 <p class="text-sm text-char/60 mb-1">Total pembayaran:</p>
-                <p class="font-display text-2xl text-char mb-4">Rp{{ number_format($pesanan->total_harga, 0, ',', '.') }}</p>
-                <a href="{{ route('pesanan.bayarMidtrans', $pesanan->kode_pesanan) }}"
-                   class="inline-block w-full text-center bg-gold-600 hover:bg-gold-700 text-white font-semibold rounded-xl py-3.5 text-sm transition">
-                    Bayar Sekarang
-                </a>
+                <p class="font-display text-3xl text-char mb-5">Rp{{ number_format($pesanan->total_harga, 0, ',', '.') }}</p>
 
-                <button id="btn-cek-ulang" type="button"
-                    class="w-full mt-2 border border-black/10 text-char/60 hover:text-char font-medium rounded-xl py-2.5 text-sm transition">
-                    Sudah Bayar? Cek Ulang Status
-                </button>
-                <p id="hasil-cek-ulang" class="text-xs text-char/40 mt-2"></p>
+                @if (config('midtrans.server_key'))
+                    <a href="{{ route('pesanan.bayarMidtrans', $pesanan->kode_pesanan) }}"
+                       class="inline-block w-full text-center bg-gold-600 hover:bg-gold-700 text-white font-semibold rounded-xl py-3.5 text-sm transition">
+                        Bayar Sekarang
+                    </a>
 
-                <p class="text-xs text-char/40 mt-3">Kamu akan diarahkan ke jendela pembayaran resmi Midtrans (mode sandbox/uji coba). Kalau setelah bayar status tidak otomatis berubah, klik tombol "Cek Ulang Status" di atas.</p>
-            @elseif ($pengaturan->qris_gambar_url)
-                {{-- Opsi 2: QRIS gambar statis milik cafe --}}
-                <p class="text-sm text-char/60 mb-1">Scan QRIS di bawah ini pakai HP kamu ({{ $pengaturan->nama_usaha ?? 'GoPay/OVO/DANA/m-Banking' }}):</p>
-                <p class="font-display text-2xl text-char my-2">Rp{{ number_format($pesanan->total_harga, 0, ',', '.') }}</p>
-                <img src="{{ $pengaturan->qris_gambar_url }}" alt="QRIS Pembayaran" class="mx-auto rounded-xl border border-black/5 w-56 h-56 object-contain">
-
-                <form method="POST" action="{{ route('pesanan.konfirmasiBayar', $pesanan->kode_pesanan) }}" class="mt-4">
-                    @csrf
-                    <button type="submit"
-                        onclick="return confirm('Pastikan kamu sudah benar-benar transfer Rp{{ number_format($pesanan->total_harga, 0, ',', '.') }} sebelum lanjut ya.')"
-                        class="w-full bg-gold-600 hover:bg-gold-700 text-white font-semibold rounded-xl py-3.5 text-sm transition">
-                        Saya Sudah Bayar
+                    <button id="btn-cek-ulang" type="button"
+                        class="w-full mt-2 border border-black/10 text-char/60 hover:text-char font-medium rounded-xl py-2.5 text-sm transition">
+                        Sudah Bayar? Cek Ulang Status
                     </button>
-                </form>
-                <p class="text-xs text-char/40 mt-3">Setelah transfer &amp; klik tombol di atas, pesananmu langsung diteruskan ke dapur. Kasir akan mencocokkan pembayaran di sistem mereka.</p>
+                    <p id="hasil-cek-ulang" class="text-xs text-char/40 mt-2"></p>
+
+                    <p class="text-xs text-char/40 mt-3">Kamu akan diarahkan ke jendela pembayaran resmi Midtrans (mode sandbox/uji coba). Setelah bayar, pesanan otomatis diteruskan ke dapur. Kalau statusnya tidak otomatis berubah, klik "Cek Ulang Status" di atas.</p>
+                @else
+                    <p class="text-sm text-red-500">Pembayaran e-wallet belum diaktifkan oleh kasir. Silakan hubungi kasir untuk membayar secara manual.</p>
+                @endif
             @else
-                {{-- Opsi 3 (fallback): tunjukkan kode ke kasir --}}
-                <p class="text-sm text-char/60 mb-3">Silakan bayar di kasir untuk melanjutkan pesanan. Tunjukkan kode/QR ini ke kasir:</p>
-                <img src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data={{ urlencode($pesanan->kode_pesanan) }}"
-                     alt="QR Pesanan" class="mx-auto rounded-xl border border-black/5">
-                <p class="text-xs text-char/40 mt-3">Simpan halaman ini terbuka sampai kamu selesai bayar di kasir.</p>
+                {{-- Bayar manual di kasir -- kasir yang konfirmasi, tidak otomatis --}}
+                <div class="text-center">
+                    <div class="w-14 h-14 rounded-full bg-coffee-50 text-coffee-700 flex items-center justify-center mx-auto mb-3">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" class="w-7 h-7"><rect x="2.5" y="6" width="19" height="12" rx="2.5"/><path d="M2.5 10h19"/></svg>
+                    </div>
+                    <p class="font-semibold text-char">Silakan Bayar di Kasir</p>
+                    <p class="text-sm text-char/50 mt-1">Tunjukkan kode pesanan ini ke kasir untuk membayar.</p>
+
+                    <p class="text-xs text-char/40 mt-4">Total Pembayaran</p>
+                    <p class="font-display text-3xl text-char">Rp{{ number_format($pesanan->total_harga, 0, ',', '.') }}</p>
+
+                    <div class="mt-4 inline-block bg-coffee-50 rounded-xl px-5 py-3">
+                        <p class="text-[11px] text-coffee-700/60 uppercase tracking-wide">Kode Pesanan</p>
+                        <p class="font-mono text-xl font-semibold text-coffee-800">{{ $pesanan->kode_pesanan }}</p>
+                    </div>
+
+                    <p class="text-xs text-char/40 mt-4">Halaman ini akan otomatis berubah begitu kasir mengonfirmasi pembayaranmu.</p>
+                </div>
             @endif
         </div>
     </div>

@@ -92,6 +92,7 @@ class KeranjangController extends Controller
     {
         $request->validate([
             'tipe' => 'required|in:dine_in,take_away',
+            'metode_bayar' => 'required|in:e_wallet,tunai_kasir',
             'nama_pelanggan' => 'nullable|string|max:100',
             'catatan' => 'nullable|string|max:255',
         ]);
@@ -111,6 +112,7 @@ class KeranjangController extends Controller
                 'meja_id' => $meja?->id,
                 'nomor_meja_snapshot' => $meja?->nomor_meja,
                 'tipe' => $request->tipe,
+                'metode_bayar' => $request->metode_bayar,
                 'nama_pelanggan' => $request->nama_pelanggan,
                 'catatan' => $request->catatan,
                 'status' => 'menunggu_pembayaran',

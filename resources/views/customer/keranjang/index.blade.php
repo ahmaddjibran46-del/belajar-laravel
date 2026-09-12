@@ -83,6 +83,20 @@
                 </div>
             </div>
             <div>
+                <label class="block text-xs text-char/60 mb-1.5">Metode Pembayaran</label>
+                <div class="grid grid-cols-2 gap-2">
+                    <label class="border border-black/10 rounded-xl px-3 py-2.5 text-sm flex items-center justify-center gap-2 has-[:checked]:border-coffee-600 has-[:checked]:bg-coffee-50 has-[:checked]:text-coffee-700 cursor-pointer transition">
+                        <input type="radio" name="metode_bayar" value="e_wallet" checked class="accent-coffee-600">
+                        E-Wallet
+                    </label>
+                    <label class="border border-black/10 rounded-xl px-3 py-2.5 text-sm flex items-center justify-center gap-2 has-[:checked]:border-coffee-600 has-[:checked]:bg-coffee-50 has-[:checked]:text-coffee-700 cursor-pointer transition">
+                        <input type="radio" name="metode_bayar" value="tunai_kasir" class="accent-coffee-600">
+                        Bayar di Kasir
+                    </label>
+                </div>
+                <p class="text-[11px] text-char/40 mt-1.5">E-Wallet: bayar langsung dari HP (QRIS/GoPay/ShopeePay). Bayar di Kasir: tunjukkan kode pesanan ke kasir.</p>
+            </div>
+            <div>
                 <label class="block text-xs text-char/60 mb-1.5">Nama (opsional)</label>
                 <input type="text" name="nama_pelanggan" placeholder="Nama kamu, biar mudah dipanggil"
                     class="w-full rounded-xl border border-black/10 px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-coffee-500">

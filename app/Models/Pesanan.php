@@ -17,6 +17,7 @@ class Pesanan extends Model
         'meja_id',
         'nomor_meja_snapshot',
         'tipe',
+        'metode_bayar',
         'nama_pelanggan',
         'catatan',
         'status',
@@ -94,5 +95,14 @@ class Pesanan extends Model
     public function sudahDibayar(): bool
     {
         return !in_array($this->status, ['menunggu_pembayaran', 'dibatalkan']);
+    }
+
+    public function labelMetodeBayar(): string
+    {
+        return match ($this->metode_bayar) {
+            'e_wallet' => 'E-Wallet / QRIS',
+            'tunai_kasir' => 'Bayar di Kasir',
+            default => '-',
+        };
     }
 }
