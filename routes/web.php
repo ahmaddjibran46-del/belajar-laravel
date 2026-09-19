@@ -63,7 +63,4 @@ Route::middleware('auth')->prefix('kasir')->name('kasir.')->group(function () {
     Route::resource('meja', MejaController::class)->except(['show']);
     Route::resource('kategori', KategoriController::class)->except(['show']);
     Route::resource('menu', KasirMenuController::class)->except(['show']);
-
-    Route::get('/pengaturan', [PengaturanController::class, 'edit'])->name('pengaturan.edit');
-    Route::post('/pengaturan', [PengaturanController::class, 'update'])->name('pengaturan.update');
 });

@@ -9,9 +9,9 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        // Antrian bayar: pesanan baru masuk yang belum dibayar pelanggan di kasir.
         $menungguBayar = Pesanan::with('items')
             ->where('status', 'menunggu_pembayaran')
+            ->where('metode_bayar', 'tunai_kasir')
             ->orderBy('created_at')
             ->get();
 
