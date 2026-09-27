@@ -17,7 +17,7 @@
         <span id="status-badge" class="inline-block px-3 py-1.5 rounded-full text-sm font-medium {{ $pesanan->warnaStatus() }}">
             {{ $pesanan->labelStatus() }}
         </span>
-        <p class="text-xs text-char/40 mt-2">Kode Pesanan &middot; <span class="font-medium text-char/60">{{ $pesanan->kode_pesanan }}</span></p>
+        <p class="text-xs text-char/40 mt-2">Kode Pesanan · <span class="font-medium text-char/60">{{ $pesanan->kode_pesanan }}</span></p>
     </div>
 
     @if (session('success'))
@@ -130,7 +130,7 @@
             @endif
         </div>
 
-        <p class="text-xs text-char/30 mt-3">Kode Pesanan &middot; {{ $pesanan->kode_pesanan }}</p>
+        <p class="text-xs text-char/30 mt-3">Kode Pesanan · {{ $pesanan->kode_pesanan }}</p>
     </div>
 @endif
 
@@ -138,7 +138,7 @@
     <div class="bg-white rounded-2xl border border-black/5 p-4">
         <p class="text-xs text-char/40 mb-2">
             {{ $pesanan->tipe === 'dine_in' ? 'Makan di Tempat' : 'Bawa Pulang' }}
-            @if ($pesanan->nomor_meja_snapshot) &middot; Meja {{ $pesanan->nomor_meja_snapshot }} @endif
+            @if ($pesanan->nomor_meja_snapshot) · Meja {{ $pesanan->nomor_meja_snapshot }} @endif
         </p>
         <div class="divide-y divide-black/5">
             @foreach ($pesanan->items as $item)

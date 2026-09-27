@@ -7,15 +7,16 @@
     <x-icon name="arrow-left" class="w-4 h-4" /> Kembali ke antrian
 </a>
 
-<div class="mt-4 grid grid-cols-3 gap-6">
-    <div class="col-span-2 bg-white rounded-2xl border border-black/5 p-6">
+<div class="mt-4 grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <div class="lg:col-span-2 bg-white rounded-2xl border border-black/5 p-6">
         <div class="flex items-center justify-between mb-4">
             <div>
-                <p class="font-mono text-xl text-ink">{{ $pesanan->kode_pesanan }}</p>
+                <p class="text-xl font-semibold text-ink">{{ $pesanan->nama_pelanggan ?: 'Tanpa Nama' }}</p>
+                <p class="font-mono text-xs text-ink/40 mt-0.5">{{ $pesanan->kode_pesanan }}</p>
                 <p class="text-sm text-ink/50 mt-1">
-                    {{ $pesanan->tipe === 'dine_in' ? 'Makan di Tempat &middot; Meja ' . ($pesanan->nomor_meja_snapshot ?? '-') : 'Bawa Pulang' }}
-                    @if ($pesanan->nama_pelanggan) &middot; {{ $pesanan->nama_pelanggan }} @endif
+                    {{ $pesanan->tipe === 'dine_in' ? 'Makan di Tempat · Meja ' . ($pesanan->nomor_meja_snapshot ?? '-') : 'Bawa Pulang' }}
                 </p>
+                <p class="text-xs text-ink/40 mt-1">Metode Bayar: <span class="font-medium text-ink/60">{{ $pesanan->labelMetodeBayar() }}</span></p>
             </div>
             <span class="text-xs px-3 py-1 rounded-full font-medium {{ $pesanan->warnaStatus() }}">{{ $pesanan->labelStatus() }}</span>
         </div>
@@ -56,7 +57,13 @@
                     Tandai Sudah Dibayar
                 </button>
             </form>
-            <p class="text-xs text-ink/40 mt-2">Pastikan sudah menerima pembayaran (tunai/QRIS) sebelum konfirmasi.</p>
+            <p class="text-xs text-ink/40 mt-2">
+                @if ($pesanan->metode_bayar === 'e_wallet')
+                    Pelanggan memilih bayar E-Wallet — biasanya status berubah otomatis setelah bayar. Tombol ini untuk konfirmasi manual bila perlu.
+                @else
+                    Pelanggan memilih Bayar di Kasir. Pastikan sudah menerima pembayaran (tunai/QRIS) sebelum konfirmasi.
+                @endif
+            </p>
         @endif
 
         @if (in_array($pesanan->status, ['dibayar', 'diproses']))

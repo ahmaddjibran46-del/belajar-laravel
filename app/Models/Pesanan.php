@@ -43,7 +43,7 @@ class Pesanan extends Model
     public static function generateKodePesanan(): string
     {
         do {
-            $kode = 'GC-' . Carbon::now()->format('ymd') . '-' . Str::upper(Str::random(4));
+            $kode = 'BN-' . Carbon::now()->format('ymd') . '-' . Str::upper(Str::random(4));
         } while (static::where('kode_pesanan', $kode)->exists());
 
         return $kode;
