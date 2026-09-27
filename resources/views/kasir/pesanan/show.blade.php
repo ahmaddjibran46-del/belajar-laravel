@@ -7,8 +7,8 @@
     <x-icon name="arrow-left" class="w-4 h-4" /> Kembali ke antrian
 </a>
 
-<div class="mt-4 grid grid-cols-1 lg:grid-cols-3 gap-6">
-    <div class="lg:col-span-2 bg-white rounded-2xl border border-black/5 p-6">
+<div class="mt-4 grid grid-cols-3 gap-6">
+    <div class="col-span-2 bg-white rounded-2xl border border-black/5 p-6">
         <div class="flex items-center justify-between mb-4">
             <div>
                 <p class="text-xl font-semibold text-ink">{{ $pesanan->nama_pelanggan ?: 'Tanpa Nama' }}</p>
