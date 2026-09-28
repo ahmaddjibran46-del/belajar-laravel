@@ -21,7 +21,7 @@
     </form>
 </div>
 
-<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
     <div>
         <h2 class="text-sm font-semibold text-ink/70 uppercase tracking-wide mb-3">Menunggu Bayar · {{ $menungguBayar->count() }}</h2>
         <div class="space-y-3">
@@ -36,12 +36,7 @@
                         {{ $p->tipe === 'dine_in' ? 'Meja ' . ($p->nomor_meja_snapshot ?? '-') : 'Bawa Pulang' }}
                         · {{ $p->items->sum('qty') }} item
                     </p>
-                    <div class="flex items-center justify-between mt-1">
-                        <p class="text-sm font-semibold text-chili-700">Rp{{ number_format($p->total_harga, 0, ',', '.') }}</p>
-                        <span class="text-[10px] px-2 py-0.5 rounded-full {{ $p->metode_bayar === 'e_wallet' ? 'bg-sky-50 text-sky-600' : 'bg-orange-50 text-orange-600' }}">
-                            {{ $p->labelMetodeBayar() }}
-                        </span>
-                    </div>
+                        <p class="text-sm font-semibold text-chili-700">Rp{{ number_format($p->total_harga, 0, ',', '.') }}</p>                        
                 </a>
             @empty
                 <p class="text-sm text-ink/40">Tidak ada pesanan menunggu bayar.</p>

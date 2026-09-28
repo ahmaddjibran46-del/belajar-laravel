@@ -13,6 +13,8 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->trustProxies(at: '*');
+        $middleware->redirectUsersTo('/kasir');
+        $middleware->validateCsrfTokens(except: ['midtrans/notifikasi']);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
