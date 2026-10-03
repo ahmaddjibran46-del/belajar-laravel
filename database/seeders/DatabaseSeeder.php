@@ -16,7 +16,6 @@ class DatabaseSeeder extends Seeder
         // Akun kasir default
         User::create([
             'name' => 'Admin Kasir',
-            'email' => 'kasir@resto.test',
             'password' => Hash::make('password'),
             'role' => 'admin',
         ]);

@@ -22,10 +22,10 @@
             <form method="POST" action="{{ route('login') }}" class="space-y-4">
                 @csrf
                 <div>
-                    <label class="block text-sm text-ink/70 mb-1">Email</label>
+                    <label class="block text-sm text-ink/70 mb-1">Username</label>
                     <div class="relative">
                         <x-icon name="mail" class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-ink/35" />
-                        <input type="email" name="email" value="{{ old('email') }}" required autofocus
+                        <input type="text" name="username" value="{{ old('username') }}" required autofocus
                             class="w-full rounded-lg border border-black/10 pl-9 pr-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-coffee-500 focus:border-coffee-500">
                     </div>
                 </div>
